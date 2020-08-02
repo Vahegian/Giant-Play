@@ -3,6 +3,7 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import GPHeader from './header';
 import colors from '../config/colors';
 import GoogleCast from 'react-native-google-cast';
+import imgResources from '../config/imgResources';
 
 
 class Channels extends Component {
@@ -19,19 +20,20 @@ class Channels extends Component {
     castCh(title, url) {
         GoogleCast.castMedia({
             mediaUrl: url,
-            imageUrl:
-                'https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/images/480x270/BigBuckBunny.jpg',
+            // imageUrl:
+            //     imgResources.logo,
             title: title,
             subtitle:
                 'Giant Play',
-            studio: '',
-            streamDuration: 15000, // seconds
-            contentType: 'video/mp4', // Optional, default is "video/mp4"
-            playPosition: 0, // seconds
-            customData: {
-                // Optional, your custom object that will be passed to as customData to reciever
-                customKey: '',
-            },
+            // studio: '',
+            // streamDuration: 15000, // seconds
+            contentType: 'application/vnd.apple.mpegurl', // Optional, default is "video/mp4"
+            isLive:true,
+            // playPosition: 0, // seconds
+            // customData: {
+            //     // Optional, your custom object that will be passed to as customData to reciever
+            //     customKey: '',
+            // },
         })
         return true
     }
@@ -40,13 +42,14 @@ class Channels extends Component {
         return (
 
             <View style={{
-                width: "46%", padding: "5%",
+                width: "48%", padding: "5%",
                 justifyContent: "center", alignItems: "center",
                 backgroundColor: colors.veryTransparentWhite,
-                borderColor: colors.green,
-                borderWidth: 2,
+                // borderColor: colors.green,
+                // borderWidth: 2,
                 borderRadius: 10,
                 marginBottom: "3%", marginRight: "1%", marginLeft: "1%",
+                
 
             }}>
                 <TouchableOpacity onPress={() => {this.props.navigation.navigate('VideoPlay', {url:ch.link});}}>
@@ -62,26 +65,27 @@ class Channels extends Component {
 
     render() {
         return (
-            <View>
-                <GPHeader {...this.props}></GPHeader>
-                <FlatList numColumns={2}
-                    data={this.state.ch}
-                    renderItem={({ item }) => <this.Item ch={item} />}
-                    keyExtractor={item => item.title}
-                    contentContainerStyle={{ flexDirection: "column", justifyContent: "center" }}
-                    extraData={this.props} />
-                <View style={{
-                    position: "absolute", zIndex: 999,
-                    alignSelf: "center", bottom: "2%",
-                    backgroundColor: colors.green,
-                    borderRadius:12,
-                    width:"50%",
-                    justifyContent:"center", alignItems:"center",
-                }}>
+            <>
+                <GPHeader {...this.props}>
+                    <FlatList numColumns={2}
+                        data={this.state.ch}
+                        renderItem={({ item }) => <this.Item ch={item} />}
+                        keyExtractor={item => item.title}
+                        contentContainerStyle={{  paddingBottom:"15%", paddingTop:"3%" }}
+                        extraData={this.props} />
+                    <View style={{
+                        position: "absolute", zIndex: 999,
+                        alignSelf: "center", bottom: "2%",
+                        backgroundColor: colors.green,
+                        borderRadius:12,
+                        width:"50%",
+                        justifyContent:"center", alignItems:"center",
+                    }}>
 
-                    <Text style={{fontSize:18, color: colors.white}} >{this.state.curCastCh}</Text>
-                </View>
-            </View>
+                        <Text style={{fontSize:18, color: colors.white}} >{this.state.curCastCh}</Text>
+                    </View>
+                </GPHeader>
+            </>
         );
     }
 }

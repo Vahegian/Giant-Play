@@ -3,6 +3,7 @@ import { View, Text, StatusBar } from 'react-native';
 import Video from 'react-native-video';
 import GPHeader from './header';
 import colors from '../config/colors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class VidPlay extends Component {
     static navigationOptions = {
@@ -11,19 +12,21 @@ class VidPlay extends Component {
     constructor(props) {
         super(props);
         this.state = this.props.navigation.state.params
-        console.log(this.state)
+        // console.log(this.state)
+        this.player = null
+        this.isFull = false
     }
+
 
     render() {
         return (
-            
             <View style={{flex: 1}}>
                 <StatusBar translucent={true}></StatusBar>
                 <Video source={{ uri: this.state.url }}   // Can be a URL or a local file.
                     ref={(ref) => {
                         this.player = ref
                         // ref.presentFullscreenPlayer()
-                    }}                                       // Callback when video cannot be loaded
+                    }}                                    // Callback when video cannot be loaded
                     style={{
                         position: "absolute",
                         // flex:1
@@ -34,6 +37,30 @@ class VidPlay extends Component {
                     }} 
                     resizeMode="stretch"
                     />
+
+                <View style = {{position: "absolute",
+                        // flex:1
+                        width: "25%",
+                        // height:"100%",
+                        alignSelf: "center", justifyContent: "center", alignItems: "center",
+                        // padding:"2%",
+                        backgroundColor:colors.veryTransparentWhite,
+                        borderRadius: 12,
+                        zIndex:999,
+                        bottom:0}}>
+                    <TouchableOpacity onPress={()=>{
+                                                        if (!this.isFull){
+                                                            this.player.presentFullscreenPlayer()
+                                                        }else{
+                                                            this.player.dismissFullscreenPlayer()
+                                                        }
+                                                        this.isFull = !this.isFull
+                                                        this.setState({"rx": this.isFull}) 
+                                                    }
+                                                }>
+                        <Text> {this.isFull? "Exit": "Full Screen"}</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
