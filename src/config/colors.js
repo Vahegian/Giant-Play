@@ -16,11 +16,11 @@ const colors = {
   star: '#FAB401',
   time: '#a4c3b2',
   transparentWhite: 'rgba(255,255,255,0.9)',
-  veryTransparentWhite: 'rgba(255,255,255,0.8)',
+  veryTransparentWhite: 'rgba(255,255,255,0.6)',
   red: '#e63946',
   yellow: '#ffd166',
   green: '#287F01',
-  greenT: 'rgba(0,255,0,0.2)',
+  greenT: 'rgba(0,156,5,0.4)',
   transparent: "rgba(255,255,255,0.0)" 
 };
 export default colors;

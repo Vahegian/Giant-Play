@@ -40,12 +40,13 @@ class VidPlay extends Component {
 
                 <View style = {{position: "absolute",
                         // flex:1
-                        width: "25%",
-                        // height:"100%",
+
                         alignSelf: "center", justifyContent: "center", alignItems: "center",
-                        // padding:"2%",
-                        backgroundColor:colors.veryTransparentWhite,
-                        borderRadius: 12,
+                        width: "25%",
+                        // // height:"100%",
+                        // // padding:"2%",
+                        // backgroundColor:colors.veryTransparentWhite,
+                        // borderRadius: 24,
                         zIndex:999,
                         bottom:0}}>
                     <TouchableOpacity onPress={()=>{
@@ -57,8 +58,14 @@ class VidPlay extends Component {
                                                         this.isFull = !this.isFull
                                                         this.setState({"rx": this.isFull}) 
                                                     }
-                                                }>
-                        <Text> {this.isFull? "Exit": "Full Screen"}</Text>
+                                                }
+                                      style={{
+                                        //   width: "100%",
+                                      // height:"100%",
+                                      // padding:"2%",
+                                      backgroundColor:colors.veryTransparentWhite,
+                                      borderRadius: 10,}}>
+                        <Text> {this.isFull? "  Exit  ": "  Full Screen  "}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
