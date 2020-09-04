@@ -8,7 +8,7 @@ export default class Splash extends Component {
   async componentDidMount() {
 
     let helpers = new Helpers();
-    await helpers.wait(2000);
+    await helpers.wait(500);
     this.props.navigation.navigate('Home');
 
   }

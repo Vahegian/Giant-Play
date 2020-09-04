@@ -30,13 +30,13 @@ class MainScreen extends Component {
           marginBottom: "3%", marginRight: "1%", marginLeft: "1%",
 
         }} >
-          <TouchableOpacity onPress={()=>{ if (this.state.username==="vaxara") this.props.navigation.navigate('Channels', channels[cat]); }}>
-              <Text style={{fontSize:16}}>Lock</Text>
+          <TouchableOpacity onPress={()=>{ if (this.state.username==="araqu") this.props.navigation.navigate('Channels', channels[cat]); }}>
+              <Text style={{fontSize:16}}>@Server</Text>
           </TouchableOpacity>
 
           <TextInput secureTextEntry={true} placeholder={""} selectionColor={colors.greenT}
             style={{
-              width: "48%", 
+              width: "70%", 
               backgroundColor: colors.veryTransparentWhite,
               borderRadius: 10,
             }}

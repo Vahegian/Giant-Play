@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import GPHeader from './header';
 import colors from '../config/colors';
-import GoogleCast from 'react-native-google-cast';
-import imgResources from '../config/imgResources';
+import castVid from '../supportLogic/cast';
 
 
 class Channels extends Component {
@@ -16,22 +15,6 @@ class Channels extends Component {
         this.state = { ch: this.props.navigation.state.params, curCastCh: "" }
         this.Item = this.Item.bind(this);
     }
-
-    castCh(title, url) {
-        // GoogleCast.getCastDevice().then((data)=>{alert(data)})
-        GoogleCast.castMedia({
-            mediaUrl: url,
-            title: title,
-            subtitle:
-                'Giant Play',
-            contentType: 'application/x-mpegurl', // Optional, default is "video/mp4"
-            isLive:true,
-        })
-        // GoogleCast.launchExpandedControls()
-        return GoogleCast.SESSION_STARTED
-        // return true
-    }
-
     Item({ ch }) {
         return (
             <View style={{
@@ -48,7 +31,7 @@ class Channels extends Component {
                 >
                     <Text style={{ fontSize: 18, color: colors.black }} >{ch.title}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { if (this.castCh(ch.title, ch.link)) this.setState({ "curCastCh": ch.title }) }}
+                <TouchableOpacity onPress={() => { if (castVid(ch.title, ch.link, 'application/x-mpegurl', true)) this.setState({ "curCastCh": ch.title }) }}
                                   style={{borderColor:colors.greenT, width:"100%", borderWidth:3, 
                                   justifyContent:"center", alignItems:"center", 
                                  borderBottomLeftRadius:12, borderBottomRightRadius:12}}

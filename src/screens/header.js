@@ -17,15 +17,18 @@ export default class GPHeader extends Component {
   render() {
     return (
       <>
-        <StatusBar backgroundColor={colors.veryTransparentWhite} barStyle="dark-content" ></StatusBar>
+        <StatusBar backgroundColor={"rgba(0,0,0,0.0)"} translucent={true} barStyle="dark-content" ></StatusBar>
         <ImageBackground source={imgResources.logo} style={{
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: colors.primaryColor,
+          // resizeMode:'cover'
+          // backgroundColor: colors.primaryColor,
         }}
           blurRadius={8}>
-          {this.props.children}
+            <View style={{marginTop: StatusBar.currentHeight, width:"100%"}}>
+                {this.props.children}
+            </View>
           <View
             style={{
               position: "absolute",
@@ -34,16 +37,21 @@ export default class GPHeader extends Component {
               alignItems: "center",
               justifyContent: "center",
               top: "3%",
-              zIndex: 999
+              zIndex: 999,
+              marginTop: StatusBar.currentHeight
             }}>
             <View style={{
-              flexDirection: "column",
-              width: 75, height: 75,
-              borderRadius: 50,
+              flexDirection: "row",
+              // width: 75, height: 75,
+              borderRadius: 24,
               backgroundColor: colors.greenT,
               justifyContent: "center", alignItems: "center"
             }}>
               <CastButton style={{ width: 50, height: 50, tintColor: 'black' }} />
+              <TouchableOpacity style={{margin:5,padding:3, backgroundColor: colors.veryTransparentWhite, borderRadius:12}}
+                                onPress={()=>{this.props.navigation.navigate('Server')}}>
+                <Text>Server</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>

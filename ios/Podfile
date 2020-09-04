@@ -14,6 +14,10 @@ target 'GiantPlay' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'GiantPlayTests' do
     inherit! :complete
     # Pods for testing
