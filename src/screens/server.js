@@ -29,7 +29,7 @@ export default class server extends Component {
     }
 
     getData(url) {
-        this.setState({ loading: true })
+        // this.setState({ loading: true })
         fetch(url, {
             method: 'GET'
             //Request Type 
@@ -164,11 +164,12 @@ export default class server extends Component {
         }
         url_path.pop()
 
-        for (let path of url_path) {
-            url_beg += path + "/"
+        for (var path of url_path) {
+            url_beg += (path + "/")
         }
+        url_beg=url_beg.substring(0, url_beg.length-1)
         // console.log("final", url_beg)
-        this.getPost("http://10.0.0.66:8000/content", { path: url_beg })
+        this.getPost(this.state.ip+"/content", { path: url_beg })
 
     }
 }

@@ -48,7 +48,7 @@ export default class GPHeader extends Component {
               justifyContent: "center", alignItems: "center"
             }}>
               <CastButton style={{ width: 50, height: 50, tintColor: 'black' }} />
-              <TouchableOpacity style={{margin:5,padding:3, backgroundColor: colors.veryTransparentWhite, borderRadius:12}}
+              <TouchableOpacity style={{margin:5,padding:10, backgroundColor: colors.veryTransparentWhite, borderRadius:25}}
                                 onPress={()=>{this.props.navigation.navigate('Server')}}>
                 <Text>Server</Text>
               </TouchableOpacity>
