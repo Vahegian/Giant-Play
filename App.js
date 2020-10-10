@@ -5,13 +5,14 @@ import Splash from './src/screens/splash';
 import Channels from './src/screens/channels';
 import VidPlay from './src/screens/vidPlay';
 import Server from './src/screens/server';
-
+import ImgBrowser from './src/screens/imgBrowser';
 
 const AppStackNavigator = createStackNavigator({
   Main: {screen: MainScreen},
   Channels: {screen: Channels},
   VideoPlay: {screen: VidPlay},
-  Server: {screen: Server}
+  Server: {screen: Server},
+  ImgBrowser: {screen: ImgBrowser}
 });
 
 // We used createSwitchNavigator because we don't want our user to // navigate back to Splash screen by pressing back button. Hence

@@ -32,6 +32,7 @@
 		1E43A98F125B447BA8B58575 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6432E3CE7BB04B62B57AB873 /* Octicons.ttf */; };
 		BA5A8854A9B8477080D2EEDA /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0AC02CE3B7174DE685D0D73B /* SimpleLineIcons.ttf */; };
 		F6CEF1AAFA754D15BDB26EBB /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 924A7DEBCA724324AB540782 /* Zocial.ttf */; };
+		D73464FBFBFA4A88BC738554 /* libRNFileSystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20D99418F3D247C495C757C6 /* libRNFileSystem.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,8 @@
 		6432E3CE7BB04B62B57AB873 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0AC02CE3B7174DE685D0D73B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		924A7DEBCA724324AB540782 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		97A8BCB421D84863BC6BF8CF /* RNFileSystem.xcodeproj */ = {isa = PBXFileReference; name = "RNFileSystem.xcodeproj"; path = "../node_modules/react-native-filesystem/ios/RNFileSystem.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		20D99418F3D247C495C757C6 /* libRNFileSystem.a */ = {isa = PBXFileReference; name = "libRNFileSystem.a"; path = "libRNFileSystem.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D73464FBFBFA4A88BC738554 /* libRNFileSystem.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +164,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				97A8BCB421D84863BC6BF8CF /* RNFileSystem.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -527,6 +532,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiantPlay.app/GiantPlay";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Debug;
 		};
@@ -546,6 +559,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiantPlay.app/GiantPlay";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Release;
 		};
@@ -568,6 +589,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Debug;
 		};
@@ -588,6 +613,10 @@
 				PRODUCT_NAME = GiantPlay;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Release;
 		};
@@ -615,6 +644,14 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Debug;
 		};
@@ -642,6 +679,14 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Release;
 		};
@@ -668,6 +713,14 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiantPlay-tvOS.app/GiantPlay-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Debug;
 		};
@@ -694,6 +747,14 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiantPlay-tvOS.app/GiantPlay-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-filesystem/ios/RNFileSystem",
+				);
 			};
 			name = Release;
 		};

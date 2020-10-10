@@ -16,6 +16,7 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.reactnative.googlecast.GoogleCastPackage;
+import com.facebook.react.modules.storage.ReactDatabaseSupplier;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -52,6 +53,8 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    long size = 128L * 1024L * 1024L; // 128 MB
+    com.facebook.react.modules.storage.ReactDatabaseSupplier.getInstance(getApplicationContext()).setMaximumSize(size);
   }
 
   /**

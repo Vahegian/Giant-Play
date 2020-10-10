@@ -11,10 +11,10 @@ class SqlStorage {
     storeData = async (key, value) => {
         try {
             // console.log("store", value);
-            const jsonValue = JSON.stringify(value);
-            await AsyncStorage.setItem(key, jsonValue);
+            await AsyncStorage.setItem(key, JSON.stringify(value));
         } catch (e) {
             // saving error
+            console.log(e)
         }
     }
 

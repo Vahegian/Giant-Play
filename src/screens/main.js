@@ -72,7 +72,7 @@ class MainScreen extends Component {
             data={Object.keys(channels)}
             renderItem={({ item }) => <this.Item cat={item} />}
             keyExtractor={item => item}
-            contentContainerStyle={{ flexDirection: "column", justifyContent: "center", paddingTop: "2%" }}
+            contentContainerStyle={{ flexDirection: "column", justifyContent: "center", paddingTop: "2%", paddingBottom: 100 }}
             extraData={this.props} />
         </GPHeader>
       </>

@@ -74,6 +74,8 @@ export default class server extends Component {
         let file_ext = cat.name.split(".").pop()
         if (ALLOWED_IMGS.includes(file_ext)) {
             this.setState({ imgUrl: [{ url: this.state.ip + "/img" + cat.path.substring(1) }], showImg: true });
+        }else if (cat.name==="out.json"){
+            this.props.navigation.navigate("ImgBrowser")
         }
         castVid(cat.name, this.state.ip + "/stream" + cat.path.substring(1), "video/mp4")
     }
