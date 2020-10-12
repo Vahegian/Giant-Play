@@ -4,6 +4,8 @@ import colors from '../config/colors';
 import GPHeader from './header';
 import channels from '../raw/private/ch.json'
 import imgResources from '../config/imgResources';
+import Conf from '../config/conf';
+
 
 
 class MainScreen extends Component {
@@ -30,7 +32,7 @@ class MainScreen extends Component {
           marginBottom: "3%", marginRight: "1%", marginLeft: "1%",
 
         }} >
-          <TouchableOpacity onPress={()=>{ if (this.state.username==="araqu") this.props.navigation.navigate('Channels', channels[cat]); }}>
+          <TouchableOpacity onPress={()=>{ if (this.state.username===Conf.default_ch_pass) this.props.navigation.navigate('Channels', channels[cat]); }}>
               <Text style={{fontSize:16}}>@Server</Text>
           </TouchableOpacity>
 

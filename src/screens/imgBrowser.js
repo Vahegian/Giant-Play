@@ -5,6 +5,8 @@ import SqlStorage from '../supportLogic/sqlStorage';
 import Icon from 'react-native-vector-icons/Entypo';
 import colors from '../config/colors';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import DocumentPicker from 'react-native-document-picker';
+import Conf from '../config/conf';
 
 export default class ImgBrowser extends Component {
     static navigationOptions = {
@@ -27,13 +29,24 @@ export default class ImgBrowser extends Component {
 
     async showData() {
         this.setState({ loading: true })
-        let data = await this.sql.getData("imgs");
-        // console.log(data["server@i"].dirs[1])
-        if (data === null) {
+        let data = await this.openFile()
+        if (!data) {
             this.sql.getData("ip").then(ip => this.getData(ip + "/lol"))
-        } else {
-            this.setState({ showData: true, loading: false, data:data })
         }
+    }
+
+    async openFile() {
+        try {
+            const res = await DocumentPicker.pick({
+              type: [DocumentPicker.types.allFiles],
+            });
+            
+            this.getData(res.uri)
+
+            return true
+          } catch (err) {
+            return false
+          }
     }
 
     getData(url) {
@@ -70,7 +83,7 @@ export default class ImgBrowser extends Component {
         return (
             <View style={{ backgroundColor: colors.black, height: "100%" }}>
                 <View style={{ display: "flex", flexDirection: "row", width: "100%", alignItems: "center", marginTop: "15%" }}>
-                    <TextInput secureTextEntry={false} placeholder={"password"} selectionColor={colors.greenT}
+                    <TextInput secureTextEntry={true} placeholder={"password"} selectionColor={colors.greenT}
                         style={{
                             width: "85%",
                             backgroundColor: colors.veryTransparentWhite,
@@ -82,15 +95,16 @@ export default class ImgBrowser extends Component {
 
                     {
                         this.state.loading ? <ActivityIndicator size="large" color={colors.green} /> :
-                            <TouchableOpacity onPress={async () => { if (this.state.password === "araqu") { await this.showData() } }}>
+                            <TouchableOpacity onPress={async () => { if (this.state.password === Conf.default_sec_pass) { await this.showData() } }}>
                                 <Icon name="install" size={30} color={colors.white} />
                             </TouchableOpacity>
                     }
                 </View>
+
                 <View style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     {this.state.showData ?
                         <FlatList numColumns={2}
-                            data={this.state.data["server@i"].dirs}
+                            data={this.state.data[Object.keys(this.state.data)[0]].dirs}
                             renderItem={({ item }) => <this.Item item={item} />}
                             keyExtractor={item => Object.keys(item)[0]}
                             contentContainerStyle={{ paddingTop: 50, paddingBottom: 100 }}

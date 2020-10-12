@@ -8,6 +8,7 @@ import SqlStorage from '../supportLogic/sqlStorage';
 import castVid from '../supportLogic/cast';
 import { Modal } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import Conf from '../config/conf';
 
 const ALLOWED_IMGS = ["png", "jpg", "jpeg", "gif"];
 const SECURE_FOLDER = "server@i"
@@ -74,17 +75,18 @@ export default class server extends Component {
         let file_ext = cat.name.split(".").pop()
         if (ALLOWED_IMGS.includes(file_ext)) {
             this.setState({ imgUrl: [{ url: this.state.ip + "/img" + cat.path.substring(1) }], showImg: true });
-        }else if (cat.name==="out.json"){
+        } else if (cat.name === "out.json") {
             this.props.navigation.navigate("ImgBrowser")
+        }else{
+            castVid(cat.name, this.state.ip + "/stream" + cat.path.substring(1), "video/mp4")
         }
-        castVid(cat.name, this.state.ip + "/stream" + cat.path.substring(1), "video/mp4")
     }
 
     dealWithFolders(cat, require_pass) {
         if (!require_pass) {
             this.getPost(this.state.ip + "/content", { path: cat.path })
         } else {
-            if (this.state.pass === "araqu") {
+            if (this.state.pass === Conf.default_sec_pass) {
                 this.getPost(this.state.ip + "/content", { path: cat.path })
             }
         }
@@ -136,7 +138,7 @@ export default class server extends Component {
                 borderRadius: 12, borderColor: colors.transparentWhite, borderWidth: 1
             }}>
 
-                <View style={{ display: "flex", width: "50%", justifyContent: "center" }}>
+                <View style={{ display: "flex", flexDirection: "row", width: "50%", justifyContent: "center", alignItems: "center" }}>
                     <TouchableOpacity style={{
                         display: "flex", flexDirection: "row", justifyContent: "center",
                         alignItems: "center"
@@ -145,6 +147,15 @@ export default class server extends Component {
                         onPress={() => { this.goBack() }}          >
                         <Icon name="back" size={30} />
                         <Text>Back</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{
+                        display: "flex", flexDirection: "row", justifyContent: "center",
+                        alignItems: "center", marginLeft: "10%"
+                    }}
+
+                        onPress={() => { this.props.navigation.navigate("ImgBrowser") }}>
+                        <Icon name="save" size={30} />
+                        <Text>File</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ display: "flex", flexDirection: "row", width: "50%", alignItems: "center" }}>
@@ -208,4 +219,5 @@ export default class server extends Component {
         this.getPost(this.state.ip + "/content", { path: url_beg })
 
     }
+
 }
