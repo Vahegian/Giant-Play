@@ -15,8 +15,6 @@ const AppStackNavigator = createStackNavigator({
   ImgBrowser: {screen: ImgBrowser}
 });
 
-// We used createSwitchNavigator because we don't want our user to // navigate back to Splash screen by pressing back button. Hence
-// Splash screen just get seen once by the user.
 const AppSwitchNavigator = createSwitchNavigator(
   {
     Splash: { screen: Splash },

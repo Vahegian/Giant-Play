@@ -3,7 +3,6 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import GPHeader from './header';
 import colors from '../config/colors';
 import castVid from '../supportLogic/cast';
-
 import Icon from 'react-native-vector-icons/Entypo';
 
 

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, Image, StatusBar, TouchableOpacity, ImageBackground } from 'react-native';
-import { Header, Left, Right, Body } from 'native-base'
+import { View, Text, StatusBar, TouchableOpacity, ImageBackground } from 'react-native';
+
 import colors from '../config/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
-import GoogleCast, { CastButton } from 'react-native-google-cast';
+import { CastButton } from 'react-native-google-cast';
 import imgResources from '../config/imgResources';
 
 export default class GPHeader extends Component {
@@ -11,8 +10,6 @@ export default class GPHeader extends Component {
   constructor(props) {
     super(props);
   }
-
-
 
   render() {
     return (

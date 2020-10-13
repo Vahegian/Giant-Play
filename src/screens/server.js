@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StatusBar, ActivityIndicator } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import GPHeader from './header';
 import { FlatList, TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import colors from '../config/colors';

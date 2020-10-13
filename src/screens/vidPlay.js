@@ -1,7 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { Component} from 'react';
 import { View, Text, StatusBar } from 'react-native';
 import Video from 'react-native-video';
-import GPHeader from './header';
 import colors from '../config/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
