@@ -18,13 +18,20 @@ export default class ImgBrowser extends Component {
         this.state = {
             loading: false,
             password: "",
+            cur_pass:"",
             showData: false,
             data: null,
             showImg: false,
             imgs:[]
         }
         this.Item = this.Item.bind(this);
-        this.sql = new SqlStorage();
+        this.sql = new SqlStorage()
+
+        this.sql.getData(Conf.pass_key).then((data)=>{
+            if (data!=null){
+                this.setState({cur_pass:data})
+            }
+        })
     }
 
     async showData() {
@@ -95,7 +102,7 @@ export default class ImgBrowser extends Component {
 
                     {
                         this.state.loading ? <ActivityIndicator size="large" color={colors.green} /> :
-                            <TouchableOpacity onPress={async () => { if (this.state.password === Conf.default_sec_pass) { await this.showData() } }}>
+                            <TouchableOpacity onPress={async () => { if (this.state.password === this.state.cur_pass) { await this.showData() } }}>
                                 <Icon name="install" size={30} color={colors.white} />
                             </TouchableOpacity>
                     }

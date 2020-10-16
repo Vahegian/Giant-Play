@@ -7,8 +7,6 @@ import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 import SqlStorage from '../supportLogic/sqlStorage';
 
-const CHKEY = "chUri";
-
 class MainScreen extends Component {
   static navigationOptions = {
     headerShown: false
@@ -18,14 +16,21 @@ class MainScreen extends Component {
     super(props);
     this.state = {
       chPass: "",
-      channels: {}
+      channels: {},
+      cur_pass:""
     };
     this.Item = this.Item.bind(this);
-    this.sql = new SqlStorage();
+    this.sql = new SqlStorage()
+    
+    this.sql.getData(Conf.pass_key).then((data)=>{
+        if (data!=null){
+            this.setState({cur_pass:data})
+        }
+    })
 
-    this.sql.getData(CHKEY).then(async (data) => {
+    this.sql.getData(Conf.CHKEY).then(async (data) => {
       if (data != null) {
-        this.setState({channels:data})
+        this.setState({ channels: data })
       } else {
         await this.openFile()
       }
@@ -33,7 +38,7 @@ class MainScreen extends Component {
   }
 
   Item({ cat }) {
-    if (cat === "взрослые\n") {
+    if (cat === "взрослые\n" || cat === "взрослые") {
       return (
         <View style={{
           width: "48%", padding: "5%",
@@ -43,7 +48,7 @@ class MainScreen extends Component {
           marginBottom: "3%", marginRight: "1%", marginLeft: "1%",
 
         }} >
-          <TouchableOpacity onPress={() => { if (this.state.chPass === Conf.default_ch_pass) this.props.navigation.navigate('Channels', this.state.channels[cat]); }}>
+          <TouchableOpacity onPress={() => { if (this.state.chPass === this.state.cur_pass) this.props.navigation.navigate('Channels', this.state.channels[cat]); }}>
             <Text style={{ fontSize: 16 }}>@Server</Text>
           </TouchableOpacity>
 
@@ -88,16 +93,25 @@ class MainScreen extends Component {
             contentContainerStyle={{ flexDirection: "column", justifyContent: "center", paddingTop: "15%", paddingBottom: 100 }}
             extraData={this.props} />
 
-          <View style={{display:"flex", width:"100%", alignItems:"flex-end", justifyContent:"center", paddingBottom:50, paddingRight:10}}>
-          <TouchableOpacity style={{
-            display: "flex", flexDirection: "row", justifyContent: "center",
-            alignItems: "center", marginLeft: "10%"
-          }}
+          <View style={{ display: "flex", flexDirection: "row", width: "100%", alignItems: "flex-end", justifyContent: "flex-end", paddingBottom: 50, paddingRight: 10 }}>
+            <TouchableOpacity style={{
+              display: "flex", flexDirection: "row", justifyContent: "flex-end",
+              alignItems: "flex-end", marginLeft: "2%"
+            }}
 
-            onPress={async() => { await this.openFile() }}>
-            <Icon name="save" size={30} />
-            <Text>File</Text>
-          </TouchableOpacity>
+              onPress={async () => { this.props.navigation.navigate("PassScreen") }}>
+              <Icon name="lock" size={30} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{
+              display: "flex", flexDirection: "row", justifyContent: "center",
+              alignItems: "center", marginLeft: "2%"
+            }}
+
+              onPress={async () => { await this.openFile() }}>
+              <Icon name="save" size={30} />
+              <Text>File</Text>
+            </TouchableOpacity>
           </View>
         </GPHeader>
       </>
@@ -123,7 +137,7 @@ class MainScreen extends Component {
       method: 'GET'
     }).then((response) => response.json())
       .then(async (responseJson) => {
-        await this.sql.storeData(CHKEY, responseJson)
+        await this.sql.storeData(Conf.CHKEY, responseJson)
         this.setState({ channels: responseJson })
       })
       .catch((error) => {

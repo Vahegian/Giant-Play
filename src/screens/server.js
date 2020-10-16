@@ -29,9 +29,16 @@ export default class server extends Component {
             loading: false,
             imgUrl: "",
             showImg: false,
-            pass: ""
+            pass: "",
+            cur_pass:""
         }
-        this.sql = new SqlStorage();
+        this.sql = new SqlStorage()
+        
+        this.sql.getData(Conf.pass_key).then((data)=>{
+            if (data!=null){
+                this.setState({cur_pass:data})
+            }
+        })
         this.Item = this.Item.bind(this);
         this.sql.getData("ip").then(ip => this.getData(ip))
     }
@@ -86,7 +93,7 @@ export default class server extends Component {
         if (!require_pass) {
             this.getPost(this.state.ip + "/content", { path: cat.path })
         } else {
-            if (this.state.pass === Conf.default_sec_pass) {
+            if (this.state.pass === this.state.cur_pass) {
                 this.getPost(this.state.ip + "/content", { path: cat.path })
             }
         }

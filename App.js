@@ -6,13 +6,15 @@ import Channels from './src/screens/channels';
 import VidPlay from './src/screens/vidPlay';
 import Server from './src/screens/server';
 import ImgBrowser from './src/screens/imgBrowser';
+import PassScreen from './src/screens/passScreen';
 
 const AppStackNavigator = createStackNavigator({
   Main: {screen: MainScreen},
   Channels: {screen: Channels},
   VideoPlay: {screen: VidPlay},
   Server: {screen: Server},
-  ImgBrowser: {screen: ImgBrowser}
+  ImgBrowser: {screen: ImgBrowser},
+  PassScreen: {screen: PassScreen}
 });
 
 const AppSwitchNavigator = createSwitchNavigator(
