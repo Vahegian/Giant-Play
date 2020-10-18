@@ -21,7 +21,7 @@ class Channels extends Component {
             <View style={{
                 width: "48%", padding: "5%",
                 justifyContent: "center", alignItems: "center",
-                backgroundColor: colors.veryTransparentWhite,
+                backgroundColor: ch.title===this.state.curCastCh? colors.greenT : colors.veryTransparentWhite,
                 borderRadius: 10,
                 marginBottom: "3%", marginRight: "1%", marginLeft: "1%",
             }}>
@@ -39,10 +39,10 @@ class Channels extends Component {
 
                 <TouchableOpacity onPress={() => { if (castVid(ch.title, ch.link, 'application/x-mpegurl', true)) this.setState({ "curCastCh": ch.title }) }}
                     style={{
-                        width: "100%", justifyContent: "center", alignItems: "flex-start"
+                        width: "100%", justifyContent: "center", alignItems: "flex-start", padding:"5%"
                     }}
                 >
-                    <Text style={{ fontSize: 18, color: colors.green }} >{ch.title}</Text>
+                    <Text style={{ fontSize: 18, color: ch.title===this.state.curCastCh? colors.veryTransparentWhite:colors.green }} >{ch.title}</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -58,18 +58,6 @@ class Channels extends Component {
                         keyExtractor={item => item.title}
                         contentContainerStyle={{ paddingBottom: "15%", paddingTop: "3%", paddingTop:"20%" }}
                         extraData={this.props} />
-                    <View style={{
-                        position: "absolute", zIndex: 999,
-                        alignSelf: "center", bottom: "2%",
-                        backgroundColor: colors.greenT,
-                        borderColor: colors.veryTransparentWhite,
-                        borderRadius: 12,
-                        borderWidth: 3,
-                        width: "50%",
-                        justifyContent: "center", alignItems: "center",
-                    }}>
-                        <Text style={{ fontSize: 18, color: colors.white }} >{this.state.curCastCh}</Text>
-                    </View>
                 </GPHeader>
             </>
         );

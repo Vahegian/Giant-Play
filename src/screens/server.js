@@ -30,7 +30,8 @@ export default class server extends Component {
             imgUrl: "",
             showImg: false,
             pass: "",
-            cur_pass:""
+            cur_pass:"",
+            cur_file_name:""
         }
         this.sql = new SqlStorage()
         
@@ -80,13 +81,16 @@ export default class server extends Component {
 
     dealWithFiles(cat) {
         let file_ext = cat.name.split(".").pop()
+        let state = {cur_file_name:cat.name}
         if (ALLOWED_IMGS.includes(file_ext)) {
-            this.setState({ imgUrl: [{ url: this.state.ip + "/img" + cat.path.substring(1) }], showImg: true });
+            state= {...state, imgUrl: [{ url: this.state.ip + "/img" + cat.path.substring(1) }], showImg: true }
+            // this.setState({ imgUrl: [{ url: this.state.ip + "/img" + cat.path.substring(1) }], showImg: true });
         } else if (cat.name === "out.json") {
             this.props.navigation.navigate("ImgBrowser")
         }else{
             castVid(cat.name, this.state.ip + "/stream" + cat.path.substring(1), "video/mp4")
         }
+        this.setState(state)
     }
 
     dealWithFolders(cat, require_pass) {
@@ -101,6 +105,7 @@ export default class server extends Component {
 
     Item({ cat }) {
         let require_pass = cat.name === SECURE_FOLDER
+        let itemColor = cat.name===this.state.cur_file_name? colors.veryTransparentWhite:colors.black
         return (
             <View style={{ width: "48%", margin: "1%" }}>
                 <TouchableOpacity style={{
@@ -108,7 +113,7 @@ export default class server extends Component {
                     flexDirection: "column",
                     padding: "5%",
                     justifyContent: "center", alignItems: "center",
-                    backgroundColor: colors.veryTransparentWhite,
+                    backgroundColor: cat.name===this.state.cur_file_name? colors.greenT: colors.veryTransparentWhite,
                     borderRadius: 10,
                     marginBottom: "3%",
 
@@ -128,10 +133,10 @@ export default class server extends Component {
                             }}
                             onChangeText={(pass) => this.setState({ pass })} /> :
 
-                            <Icon name="folder" size={50} />)
-                            : <Icon name="video" size={50} />
+                            <Icon name="folder" size={50} color={itemColor} />)
+                            : <Icon name="video" size={50} color={itemColor}/>
                     }
-                    <Text style={{ fontSize: 22 }} >{cat.name}</Text>
+                    <Text style={{ fontSize: 22, color:itemColor}} >{cat.name}</Text>
                 </TouchableOpacity>
 
             </View>
