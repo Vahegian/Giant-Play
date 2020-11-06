@@ -18,6 +18,8 @@ target 'GiantPlay' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'GiantPlayTests' do
     inherit! :complete
     # Pods for testing

@@ -7,6 +7,7 @@ import colors from '../config/colors';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import DocumentPicker from 'react-native-document-picker';
 import Conf from '../config/conf';
+import * as RNFS from 'react-native-fs';
 
 export default class ImgBrowser extends Component {
     static navigationOptions = {
@@ -18,68 +19,83 @@ export default class ImgBrowser extends Component {
         this.state = {
             loading: false,
             password: "",
-            cur_pass:"",
+            cur_pass: "",
             showData: false,
             data: null,
             showImg: false,
-            imgs:[]
+            imgs: [],
+            rootDir: "",
+            files: [],
+            dirs: [],
+            prevDir:"",
+            newDir:"_"
+
         }
         this.Item = this.Item.bind(this);
+        this.prepareImages = this.prepareImages.bind(this);
         this.sql = new SqlStorage()
-
-        this.sql.getData(Conf.pass_key).then((data)=>{
-            if (data!=null){
-                this.setState({cur_pass:data})
+        // this.getJsonStructFile().then(resp=>{
+        //     resp = JSON.parse(resp)
+        //     console.log(resp.root.dirs[0])
+        // })
+        this.sql.getData(Conf.pass_key).then((data) => {
+            if (data != null) {
+                this.setState({ cur_pass: data })
             }
         })
     }
 
-    async showData() {
-        this.setState({ loading: true })
-        let data = await this.openFile()
-        if (!data) {
-            this.sql.getData("ip").then(ip => this.getData(ip + "/lol"))
+    async getJsonStructFile() {
+        try {
+            let storages = await RNFS.getAllExternalFilesDirs();
+            this.setState({ rootDir: storages[1] });
+            return JSON.parse(await RNFS.readFile(`${storages[1]}/out/out.json`))
+        } catch (err) {
+            console.log("getJsonStructFile", err);
+            return null
         }
     }
 
-    async openFile() {
-        try {
-            const res = await DocumentPicker.pick({
-              type: [DocumentPicker.types.allFiles],
-            });
-            
-            this.getData(res.uri)
+    async showData() {
+        this.setState({ loading: true })
+        let dirStructJson = await this.getJsonStructFile()
+        if (dirStructJson === null) return
+        this.setState({
+            data: dirStructJson[Object.keys(dirStructJson)[0]],
+            files: dirStructJson[Object.keys(dirStructJson)[0]].files,
+            dirs: dirStructJson[Object.keys(dirStructJson)[0]].dirs,
+            showData: true, loading: false
+        })
 
-            return true
-          } catch (err) {
-            return false
-          }
     }
 
-    getData(url) {
-        fetch(url, {
-            method: 'GET'
-            //Request Type 
-        }).then((response) => response.json())
-            .then(async (responseJson) => {
-                // console.log(responseJson["server@i"].dirs[0])
-                // await this.sql.storeData("imgs", responseJson);
-                this.setState({ loading: false, showData: true, data: responseJson })
-            })
-            .catch((error) => {
-                //Error 
-                console.error(error);
-                this.setState({ loading: false })
-            });
+    async prepareImages(files) {
+        this.setState({loading:true})
+        if (this.state.newDir===this.state.prevDir){
+            this.setState({showImg:true, loading:false})
+            return
+        }
+
+        try {
+            let imgs = []
+            for (var item of files) {
+                let fileName = Object.keys(item)[0]
+                let fileType = item[fileName]
+                imgs.push({ url: `data:image/${fileType};base64,`+await RNFS.readFile(`${this.state.rootDir}/out/${fileName}`)})
+            }
+            this.setState({imgs:imgs, showImg:true, loading:false, prevDir:this.state.newDir})
+        } catch (err) {
+            console.log("prepareImages", err);
+        }
     }
 
     Item({ item }) {
         let dir = Object.keys(item)[0]
         return (
-            <View style={{ width: "48%", margin: "1%", display: "flex", justifyContent:"center", alignItems:"center" }}>
-                <TouchableOpacity onPress={() => {this.setState({ showImg: true, imgs:item[dir].files }) }}
-                style={{display: "flex", justifyContent:"center", alignItems:"center"}}>
-                    <Icon name="folder" size={50}  color={colors.white}/>
+            <View style={{ width: "48%", margin: "1%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <TouchableOpacity onPress={() => { this.setState({ dirs: item[dir].dirs, files: item[dir].files, prevDir:this.state.newDir, newDir:dir }) }}
+                    style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <Icon name="folder" size={50} color={colors.white} />
                     <Text style={{ color: colors.white }}>{dir}</Text>
                 </TouchableOpacity>
             </View>
@@ -110,22 +126,32 @@ export default class ImgBrowser extends Component {
 
                 <View style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     {this.state.showData ?
-                        <FlatList numColumns={2}
-                            data={this.state.data[Object.keys(this.state.data)[0]].dirs}
-                            renderItem={({ item }) => <this.Item item={item} />}
-                            keyExtractor={item => Object.keys(item)[0]}
-                            contentContainerStyle={{ paddingTop: 50, paddingBottom: 100 }}
-                            extraData={this.props} />
+                        <View>
+                            {this.state.files.length > 0 ?
+                                <TouchableOpacity onPress={async () => { await this.prepareImages(this.state.files) }}>
+                                    <Text style={{ display: "flex", padding: "5%", justifyContent: "center", alignItems: "center", color: colors.white }}>Show Images</Text>
+                                </TouchableOpacity>
+                                :
+                                <Text style={{ display: "flex", padding: "5%", justifyContent: "center", alignItems: "center", color: colors.white }}>No images in the folder</Text>
+                            }
+                            <FlatList numColumns={2}
+                                data={this.state.dirs}
+                                renderItem={({ item }) => <this.Item item={item} />}
+                                keyExtractor={item => Object.keys(item)[0]}
+                                contentContainerStyle={{ paddingTop: 50, paddingBottom: 100 }}
+                                extraData={this.props} />
+                        </View>
                         :
                         <Text style={{ color: colors.white }}>Unlock For Data</Text>
                     }
                 </View>
+
                 {/* {
                     this.state.showImg? */}
-                    <Modal visible={this.state.showImg} transparent={true}>
-                        <ImageViewer imageUrls={this.state.imgs} onSwipeDown={() => this.setState({ showImg: false })} enableSwipeDown={true} />
-                    </Modal>
-                    {/* :
+                <Modal visible={this.state.showImg} transparent={true}>
+                    <ImageViewer imageUrls={this.state.imgs} onSwipeDown={() => this.setState({ showImg: false })} enableSwipeDown={true} />
+                </Modal>
+                {/* :
                     <></>
                 } */}
             </View>
