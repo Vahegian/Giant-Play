@@ -25,10 +25,11 @@ export default class ImgBrowser extends Component {
             showImg: false,
             imgs: [],
             rootDir: "",
-            files: [],
-            dirs: [],
+            // files: [],
+            // dirs: [],
             prevDir:"",
-            newDir:"_"
+            newDir:"_",
+            dirObjs:[]
 
         }
         this.Item = this.Item.bind(this);
@@ -62,9 +63,9 @@ export default class ImgBrowser extends Component {
         if (dirStructJson === null) return
         this.setState({
             data: dirStructJson[Object.keys(dirStructJson)[0]],
-            files: dirStructJson[Object.keys(dirStructJson)[0]].files,
-            dirs: dirStructJson[Object.keys(dirStructJson)[0]].dirs,
-            showData: true, loading: false
+            // files: dirStructJson[Object.keys(dirStructJson)[0]].files,
+            // dirs: dirStructJson[Object.keys(dirStructJson)[0]].dirs,
+            showData: true, loading: false, dirObjs:[]
         })
 
     }
@@ -90,10 +91,11 @@ export default class ImgBrowser extends Component {
     }
 
     Item({ item }) {
-        let dir = Object.keys(item)[0]
+        let dir = Object.keys(item)[0];
+        let prevDirObj = this.state.data;
         return (
             <View style={{ width: "48%", margin: "1%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <TouchableOpacity onPress={() => { this.setState({ dirs: item[dir].dirs, files: item[dir].files, prevDir:this.state.newDir, newDir:dir }) }}
+                <TouchableOpacity onPress={() => { this.setState({ data: item[dir], prevDir:this.state.newDir, newDir:dir, dirObjs:[...this.state.dirObjs, prevDirObj]})}}
                     style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Icon name="folder" size={50} color={colors.white} />
                     <Text style={{ color: colors.white }}>{dir}</Text>
@@ -106,9 +108,19 @@ export default class ImgBrowser extends Component {
         return (
             <View style={{ backgroundColor: colors.black, height: "100%" }}>
                 <View style={{ display: "flex", flexDirection: "row", width: "100%", alignItems: "center", marginTop: "15%" }}>
+                    <TouchableOpacity onPress={async () => {
+                        if (this.state.dirObjs.length==0){
+                            if (this.state.password === this.state.cur_pass) { await this.showData() }
+                        }else{
+                            let prevDirObj = this.state.dirObjs.pop();
+                            this.setState({ data: prevDirObj, prevDir:this.state.newDir, newDir:""});
+                        }
+                     }}>
+                        <Icon name="arrow-left" size={30} color={colors.white} />
+                    </TouchableOpacity>
                     <TextInput secureTextEntry={true} placeholder={"password"} selectionColor={colors.greenT}
                         style={{
-                            width: "85%",
+                            width: "75%",
                             backgroundColor: colors.veryTransparentWhite,
                             borderRadius: 10,
                             marginRight: "3%",
@@ -126,16 +138,16 @@ export default class ImgBrowser extends Component {
 
                 <View style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     {this.state.showData ?
-                        <View>
-                            {this.state.files.length > 0 ?
-                                <TouchableOpacity onPress={async () => { await this.prepareImages(this.state.files) }}>
+                        <View style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                            {this.state.data.files.length > 0 ?
+                                <TouchableOpacity onPress={async () => { await this.prepareImages(this.state.data.files) }}>
                                     <Text style={{ display: "flex", padding: "5%", justifyContent: "center", alignItems: "center", color: colors.white }}>Show Images</Text>
                                 </TouchableOpacity>
                                 :
-                                <Text style={{ display: "flex", padding: "5%", justifyContent: "center", alignItems: "center", color: colors.white }}>No images in the folder</Text>
+                                <Text style={{ display: "flex", padding: "5%", justifyContent: "center", alignItems: "center", color: colors.white }}>No images in this folder</Text>
                             }
                             <FlatList numColumns={2}
-                                data={this.state.dirs}
+                                data={this.state.data.dirs}
                                 renderItem={({ item }) => <this.Item item={item} />}
                                 keyExtractor={item => Object.keys(item)[0]}
                                 contentContainerStyle={{ paddingTop: 50, paddingBottom: 100 }}

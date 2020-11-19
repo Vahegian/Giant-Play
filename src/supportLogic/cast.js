@@ -12,7 +12,10 @@ export default function castVid(title, url, type, live=false) {
         contentType: type, //"video/mp4", // Optional, default is "video/mp4"
         isLive: live,
     })
-    if (!live) GoogleCast.launchExpandedControls()
+    if (!live){
+        GoogleCast.launchExpandedControls()
+        GoogleCast.toggleSubtitles(true)
+    } 
     return GoogleCast.SESSION_STARTED
     // return true
 }
