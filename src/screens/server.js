@@ -154,7 +154,7 @@ export default class server extends Component {
                         alignItems: "center"
                     }}
 
-                        onPress={() => { this.goBack() }}          >
+                        onPress={() => { this.goBack() }}>
                         <Icon name="back" size={30} />
                         <Text>Back</Text>
                     </TouchableOpacity>
@@ -198,16 +198,14 @@ export default class server extends Component {
                         <ImageViewer imageUrls={this.state.imgUrl} onSwipeDown={() => this.setState({ showImg: false })} enableSwipeDown={true} />
                     </Modal>
                     :
-                    <>
-                        <FlatList numColumns={2}
-                            data={this.state.data}
-                            renderItem={({ item }) => <this.Item cat={item} />}
-                            keyExtractor={item => item.name}
-                            contentContainerStyle={{ paddingTop: 50, paddingBottom: 100 }}
-                            extraData={this.props} />
-                        {this.serverNavi()}
-                    </>
+                    <FlatList numColumns={2}
+                        data={this.state.data}
+                        renderItem={({ item }) => <this.Item cat={item} />}
+                        keyExtractor={item => item.name}
+                        contentContainerStyle={{ paddingTop: 50, paddingBottom: 100 }}
+                        extraData={this.props} />
                 }
+                {this.serverNavi()}
             </GPHeader>
         )
     }

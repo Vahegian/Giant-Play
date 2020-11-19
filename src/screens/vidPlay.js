@@ -17,7 +17,13 @@ class VidPlay extends Component {
 
     useVideoPlayer() {
         return (
-            <>
+            <View style={{
+                // position: "absolute",
+                // flex:1
+                width: "100%",
+                height: "100%",
+                backgroundColor: colors.black
+            }}>
                 <Video source={{ uri: this.params.url }}   
                     ref={(ref) => {
                         this.player = ref
@@ -58,7 +64,7 @@ class VidPlay extends Component {
                         <Text> {this.isFull ? "  Exit  " : "  Full Screen  "}</Text>
                     </TouchableOpacity>
                 </View>
-            </>
+            </View>
         )
     }
 
